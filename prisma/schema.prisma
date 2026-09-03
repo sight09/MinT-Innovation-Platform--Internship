@@ -1,0 +1,363 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  STARTUP
+  MINT_MENTOR
+  INVESTOR
+  MINT_ADMIN
+}
+
+enum AccountStatus {
+  PENDING_VERIFICATION
+  ACTIVE
+  SUSPENDED
+}
+
+enum StartupStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  FEATURED
+}
+
+enum StartupStage {
+  IDEA
+  PROBLEM_VALIDATED
+  PROTOTYPE
+  MVP
+  EARLY_TRACTION
+  GROWTH
+  INVESTMENT_READY
+}
+
+enum ReviewStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum InterestStatus {
+  EXPRESSED
+  ACKNOWLEDGED
+  IN_DISCUSSION
+  DECLINED
+  CLOSED
+}
+
+model User {
+  id                String         @id @default(uuid())
+  email             String         @unique
+  passwordHash      String?
+  role              Role           @default(STARTUP)
+  status            AccountStatus  @default(PENDING_VERIFICATION)
+  emailVerified     Boolean        @default(false)
+  otpCode           String?
+  otpExpiry         DateTime?
+  firstName         String
+  lastName          String
+  avatarUrl         String?
+  phone             String?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  startupProfile    StartupProfile?
+  mentorProfile     MentorProfile?
+  investorProfile   InvestorProfile?
+  auditLogs         AuditLog[]
+  aiConversations   AiConversation[]
+  notifications     Notification[]
+  sentMessages      Message[]      @relation("SentMessages")
+  receivedMessages  Message[]      @relation("ReceivedMessages")
+  accounts          Account[]
+}
+
+model Account {
+  id                 String  @id @default(uuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model StartupProfile {
+  id                   String               @id @default(uuid())
+  userId               String               @unique
+  user                 User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name                 String
+  tagline              String?
+  logoUrl              String?
+  bannerUrl            String?
+  sector               String
+  stage                StartupStage         @default(IDEA)
+  location             String
+  foundedYear          Int?
+  website              String?
+  contactEmail         String?
+  contactPhone         String?
+  problemStatement     String
+  problemSignificance  String?
+  targetAudience       String?
+  solutionDescription  String?
+  uniqueValueProp      String?
+  marketSize           String?
+  competitorAnalysis   String?
+  businessModel        String?
+  revenueModel         String?
+  currentTraction      String?
+  userCount            Int?                @default(0)
+  keyMetrics           String?
+  fundingRequired      Float?
+  fundingCurrency      String               @default("ETB")
+  fundingUse           String?
+  previousFunding      String?
+  mentorshipNeeds      String?
+  partnershipNeeds     String?
+  technologyNeeds      String?
+  governmentSupport    String?
+  status               StartupStatus        @default(DRAFT)
+  readinessScore       Int?                @default(0)
+  submittedAt          DateTime?
+  approvedAt           DateTime?
+  approvedById         String?
+  featuredAt           DateTime?
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+  teamMembers          TeamMember[]
+  documents            StartupDocument[]
+  mentorReviews        MentorReview[]
+  mentorQuestions      MentorQuestion[]
+  investmentInterests  InvestmentInterest[]
+  startupScores        StartupScore[]
+  engagementEvents     EngagementEvent[]
+}
+
+model TeamMember {
+  id          String         @id @default(uuid())
+  startupId   String
+  startup     StartupProfile @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  name        String
+  role        String
+  isFounder   Boolean        @default(false)
+  bio         String?
+  linkedin    String?
+  email       String?
+}
+
+model StartupDocument {
+  id             String         @id @default(uuid())
+  startupId      String
+  startup        StartupProfile @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  name           String
+  fileType       String
+  fileUrl        String
+  fileSizeBytes  Int
+  mimeType       String
+  isPublic       Boolean        @default(false)
+  uploadedAt     DateTime       @default(now())
+  deletedAt      DateTime?
+}
+
+model MentorProfile {
+  id                String           @id @default(uuid())
+  userId            String           @unique
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title             String
+  organization      String
+  expertiseAreas   String           // Stored as JSON string
+  sectorsOfInterest String           // Stored as JSON string
+  yearsExperience   Int
+  bio               String?
+  linkedinUrl       String?
+  isVerified        Boolean          @default(false)
+  verifiedAt        DateTime?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  reviews           MentorReview[]
+  questions         MentorQuestion[]
+}
+
+model MentorReview {
+  id                   String        @id @default(uuid())
+  mentorId             String
+  mentor               MentorProfile @relation(fields: [mentorId], references: [id], onDelete: Cascade)
+  startupId            String
+  startup              StartupProfile @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  problemSignificance  Int
+  problemClarity       Int
+  innovation           Int
+  technicalFeasibility Int
+  marketPotential      Int
+  businessModel        Int
+  scalability          Int
+  teamReadiness        Int
+  traction             Int
+  overallReadiness     Int
+  averageScore         Float
+  generalFeedback      String
+  strengths            String
+  weaknesses           String
+  recommendations      String
+  privateNotes         String?
+  isFlagged            Boolean       @default(false)
+  status               ReviewStatus  @default(DRAFT)
+  submittedAt          DateTime?
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  @@unique([mentorId, startupId])
+}
+
+model MentorQuestion {
+  id          String        @id @default(uuid())
+  mentorId    String
+  mentor      MentorProfile @relation(fields: [mentorId], references: [id], onDelete: Cascade)
+  startupId   String
+  startup     StartupProfile @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  question    String
+  answer      String?
+  answeredAt  DateTime?
+  isResolved  Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+}
+
+model InvestorProfile {
+  id                   String               @id @default(uuid())
+  userId               String               @unique
+  user                 User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationName     String?
+  investorType         String
+  preferredSectors    String               // Stored as JSON string
+  preferredStages     String               // Stored as JSON string
+  minInvestment        Float?
+  maxInvestment        Float?
+  bio                  String?
+  website              String?
+  isVerified           Boolean              @default(false)
+  verifiedAt           DateTime?
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+  investmentInterests  InvestmentInterest[]
+}
+
+model InvestmentInterest {
+  id          String          @id @default(uuid())
+  investorId  String
+  investor    InvestorProfile @relation(fields: [investorId], references: [id], onDelete: Cascade)
+  startupId   String
+  startup     StartupProfile  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  message     String?
+  status      InterestStatus  @default(EXPRESSED)
+  expressedAt DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@unique([investorId, startupId])
+}
+
+model StartupScore {
+  id                  String         @id @default(uuid())
+  startupId           String
+  startup             StartupProfile @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  problemClarity      Int
+  innovationScore     Int
+  marketValidation    Int
+  businessModelScore  Int
+  teamScore           Int
+  mentorEngagement    Int
+  overallScore        Int
+  aiInsightsJson      String?        // Stored as JSON string
+  computedAt          DateTime       @default(now())
+}
+
+model EngagementEvent {
+  id        String         @id @default(uuid())
+  startupId String
+  startup   StartupProfile @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  eventType String
+  userId    String?
+  createdAt DateTime       @default(now())
+}
+
+model AiConversation {
+  id        String      @id @default(uuid())
+  userId    String?
+  user      User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  title     String?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  messages  AiMessage[]
+}
+
+model AiMessage {
+  id             String         @id @default(uuid())
+  conversationId String
+  conversation   AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String
+  content        String
+  sources        String?        // Stored as JSON string
+  createdAt      DateTime       @default(now())
+}
+
+model KnowledgeDocument {
+  id         String   @id @default(uuid())
+  title      String
+  sourceType String
+  content    String
+  metadata   String?  // Stored as JSON string
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Notification {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type       String
+  title      String
+  message    String
+  entityType String?
+  entityId   String?
+  startupId  String?
+  link       String?  // Redirect URL when notification is clicked
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model Message {
+  id         String   @id @default(uuid())
+  senderId   String
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiverId String
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+  content    String
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action     String
+  entityType String
+  entityId   String
+  details    String?  // Stored as JSON string
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+}
