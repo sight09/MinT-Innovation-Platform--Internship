@@ -104,7 +104,7 @@ export function StartupSubmitForm({ initialData }: { initialData?: any }) {
       </div>
 
       {/* Progress Tabs */}
-      <div className="flex flex-col sm:flex-row gap-2 mb-8">
+      <div className="flex flex-col sm:flex-row gap-2 mb-8" style={{ gap: '8px', marginBottom: '32px' }}>
         {[
           { num: 1, title: 'Basic Info' },
           { num: 2, title: 'The Problem' },

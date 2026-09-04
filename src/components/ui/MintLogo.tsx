@@ -45,11 +45,11 @@ export function MintLogo({ size = 'md', showText = true, className, style, varia
       {showText && (
         <div style={{ lineHeight: 1.2 }}>
           <div style={{
-            fontWeight: 800,
+            fontWeight: 500,
             fontSize: s.fontSize,
             letterSpacing: '-0.01em',
             color: textColor,
-            fontFamily: "'Outfit', 'Inter', sans-serif",
+            fontFamily: "'Fraunces', Georgia, serif",
           }}>
             M·InT
           </div>
@@ -57,8 +57,9 @@ export function MintLogo({ size = 'md', showText = true, className, style, varia
             <div style={{
               fontSize: s.subFontSize,
               color: subtextColor,
-              letterSpacing: '0.02em',
-              fontWeight: 600,
+              letterSpacing: '0.01em',
+              fontWeight: 400,
+              fontFamily: "'Public Sans', system-ui, sans-serif",
               whiteSpace: 'nowrap',
               marginTop: 1,
             }}>

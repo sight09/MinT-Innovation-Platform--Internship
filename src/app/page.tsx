@@ -168,7 +168,12 @@ export default function LandingPage() {
           <Link
             href="/startups"
             className="btn btn-ghost"
-            style={{ fontSize: '0.875rem', color: activeNav ? 'var(--text-secondary)' : 'rgba(255,255,255,0.85)' }}
+            style={{
+              fontSize: '0.875rem',   /* 14px per spec */
+              fontWeight: 400,
+              fontFamily: "'Public Sans', system-ui, sans-serif",
+              color: activeNav ? '#6B6560' : 'rgba(255, 255, 255, 0.85)',
+            }}
           >
             Explore Startups
           </Link>
@@ -203,30 +208,42 @@ export default function LandingPage() {
             transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
             style={{ maxWidth: 760 }}
           >
-            {/* Badge */}
+            {/* Eyebrow tag — spec: Public Sans 13px/500, #A67C3D, underlined */}
             <div style={{ marginBottom: 20 }}>
-              <span className="badge badge-blue" style={{ fontSize: '0.8rem' }}>
-                <Sparkles size={12} />
+              <span style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6,
+                fontSize: '0.8125rem',   /* 13px */
+                fontWeight: 500,
+                fontFamily: "'Public Sans', system-ui, sans-serif",
+                color: '#A67C3D',
+                textDecoration: 'underline',
+                textUnderlineOffset: '3px',
+              }}>
+                <Sparkles size={12} color="#A67C3D" />
                 Powered by Ministry of Innovation and Technology — Ethiopia
               </span>
             </div>
 
+            {/* h1 — Fraunces serif, 500 weight (from .hero-bg h1 CSS rule) */}
             <h1 style={{ marginBottom: 20 }}>
               <span className="text-gradient-hero">
                 Connecting Ethiopian Innovation
               </span>
               <br />
-              <span style={{ color: 'var(--text-primary)' }}>
+              <span style={{ color: 'rgba(255,255,255,0.95)' }}>
                 with Opportunity
               </span>
             </h1>
 
+            {/* Subhead — spec: Public Sans 18–19px/400, but dark bg so keep near-white */}
             <p style={{
-              fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
-              color: 'rgba(255,255,255,0.8)', marginBottom: 36, maxWidth: 600,
+              fontSize: 'clamp(1rem, 2.5vw, 1.1875rem)', /* ~19px */
+              fontFamily: "'Public Sans', system-ui, sans-serif",
+              fontWeight: 400,
+              color: 'rgba(255,255,255,0.78)', marginBottom: 36, maxWidth: 600,
               lineHeight: 1.7,
             }}>
-              A digital ecosystem where startups, MInT mentors, investors, and government 
+              A digital ecosystem where startups, MInT mentors, investors, and government
               collaborate to transform Ethiopian ideas and problems into scalable solutions.
             </p>
 
@@ -274,7 +291,7 @@ export default function LandingPage() {
           >
             <span className="badge badge-blue" style={{ marginBottom: 12 }}>How It Works</span>
             <h2>The Innovation Pipeline</h2>
-            <p className="max-w-[520px] mx-auto mt-3">
+            <p className="mt-3" style={{ textAlign: 'center', margin: '12px auto 0', maxWidth: 520 }}>
               A transparent, structured journey from problem to investment
             </p>
           </motion.div>
@@ -283,7 +300,7 @@ export default function LandingPage() {
             {/* Gradient masks for smooth edges */}
             <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 60, background: 'linear-gradient(to right, var(--surface-elevated), transparent)', zIndex: 10 }} />
             <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 60, background: 'linear-gradient(to left, var(--surface-elevated), transparent)', zIndex: 10 }} />
-            
+
             <motion.div
               animate={{ x: ["0%", "-50%"] }}
               transition={{ repeat: Infinity, ease: "linear", duration: 30 }}
@@ -327,7 +344,7 @@ export default function LandingPage() {
               <span className="badge badge-green" style={{ marginBottom: 12 }}>For Ethiopian Startups</span>
               <h2 style={{ marginBottom: 16 }}>Present Your Problem.<br />Get Structured Help.</h2>
               <p style={{ marginBottom: 24 }}>
-                Submit your startup problem profile to receive structured mentorship from verified MInT experts, 
+                Submit your startup problem profile to receive structured mentorship from verified MInT experts,
                 an AI-computed readiness score, and discover investors who match your sector.
               </p>
               {[
@@ -414,13 +431,13 @@ export default function LandingPage() {
           >
             <span className="badge badge-gold" style={{ marginBottom: 12 }}>For Investors</span>
             <h2>Discover AI-Matched Startups</h2>
-            <p className="max-w-[520px] mx-auto mt-3">
+            <p className="mt-3" style={{ textAlign: 'center', margin: '12px auto 0', maxWidth: 520 }}>
               Every recommendation comes with a match score, mentor evaluation, and transparent reasoning
             </p>
           </motion.div>
 
           {/* Sample recommendation card */}
-          <div className="max-w-[480px] mx-auto">
+          <div style={{ maxWidth: 480, margin: '0 auto' }}>
             <motion.div
               className="card"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -432,13 +449,13 @@ export default function LandingPage() {
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
                 <div>
-                  <h4 style={{ marginBottom: 4 }}>FinFlow Ethiopia</h4>
+                  <h4 style={{ marginInlineStart: 4, marginBottom: 5 }}>FinFlow Ethiopia</h4>
                   <div style={{ display: 'flex', gap: 6 }}>
                     <span className="badge badge-blue">FinTech</span>
                     <span className="stage-badge stage-GROWTH">Growth</span>
                   </div>
                 </div>
-                <div className="match-score">
+                <div className="match-score" style={{ marginBottom: 5 }}>
                   <Zap size={12} color="#006B6B" />
                   96% Match
                 </div>
@@ -462,7 +479,7 @@ export default function LandingPage() {
               </div>
 
               <div style={{ marginBottom: 16 }}>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 8, fontWeight: 600 }}>WHY RECOMMENDED</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, marginBottom: 5, fontWeight: 600 }}>WHY RECOMMENDED</div>
                 {[
                   'Matches preferred sector: FinTech',
                   'Matches investment range (Growth stage)',
@@ -567,7 +584,7 @@ export default function LandingPage() {
               </span>
               <h2 style={{ marginBottom: 16 }}>AI-Powered.<br />Knowledge-Grounded.</h2>
               <p style={{ marginBottom: 20 }}>
-                Ask anything about MInT programs, the Ethiopian startup proclamation, how to prepare for investors, 
+                Ask anything about MInT programs, the Ethiopian startup proclamation, how to prepare for investors,
                 or get your startup analyzed. Every answer is grounded in official MInT documents and policies.
               </p>
               {[
@@ -647,7 +664,7 @@ export default function LandingPage() {
             <MintLogo size="md" showText style={{ justifyContent: 'center', marginBottom: 24 }} variant="light" />
             <h2 style={{ marginBottom: 12 }}>Join Ethiopia's Innovation Ecosystem</h2>
             <p style={{ maxWidth: 480, margin: '0 auto 32px' }}>
-              Whether you're a startup solving a real Ethiopian problem, a MInT mentor shaping the next generation, 
+              Whether you're a startup solving a real Ethiopian problem, a MInT mentor shaping the next generation,
               or an investor looking for high-potential opportunities — this platform is built for you.
             </p>
 
@@ -675,7 +692,7 @@ export default function LandingPage() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
             <MintLogo size="sm" showText />
             <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>
-              © 2025 Ministry of Innovation and Technology, Federal Democratic Republic of Ethiopia. 
+              © 2025 Ministry of Innovation and Technology, Federal Democratic Republic of Ethiopia.
               All rights reserved.
             </p>
             <div style={{ display: 'flex', gap: 16 }}>

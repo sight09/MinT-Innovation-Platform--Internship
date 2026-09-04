@@ -100,20 +100,22 @@ export function StartupDashboard({ user, startup, notifications }: StartupDashbo
       </div>
 
       {/* KPI Row */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-7">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" style={{ gap: '24px', marginBottom: '32px' }}>
         {[
-          { label: 'Readiness Score', value: `${overallScore}/100`, icon: Target, color: getScoreColor(overallScore), sub: overallScore >= 75 ? 'Investment Ready' : overallScore >= 50 ? 'Developing' : 'Early Stage' },
-          { label: 'Mentor Reviews', value: reviewCount, icon: Star, color: '#FBBF24', sub: reviewCount > 0 ? 'Published' : 'None yet' },
-          { label: 'Open Questions', value: pendingQuestions, icon: MessageSquare, color: pendingQuestions > 0 ? '#F97316' : '#4ADE80', sub: pendingQuestions > 0 ? 'Awaiting answers' : 'All answered' },
-          { label: 'Investor Interest', value: investorInterests, icon: TrendingUp, color: '#A78BFA', sub: investorInterests > 0 ? 'Investors interested' : 'Grow your profile' },
+          { label: 'Readiness Score', value: `${overallScore}/100`, icon: Target, color: '#0F3D3E', sub: overallScore >= 75 ? 'Investment Ready' : overallScore >= 50 ? 'Developing' : 'Early Stage' },
+          { label: 'Mentor Reviews', value: reviewCount, icon: Star, color: '#0F3D3E', sub: reviewCount > 0 ? 'Published' : 'None yet' },
+          { label: 'Open Questions', value: pendingQuestions, icon: MessageSquare, color: pendingQuestions > 0 ? '#F97316' : '#0F3D3E', sub: pendingQuestions > 0 ? 'Awaiting answers' : 'All answered' },
+          { label: 'Investor Interest', value: investorInterests, icon: TrendingUp, color: '#A67C3D', sub: investorInterests > 0 ? 'Investors interested' : 'Grow your profile' },
         ].map(({ label, value, icon: Icon, color, sub }) => (
-          <motion.div key={label} className="stat-card" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div className="stat-value" style={{ color }}>{value}</div>
-              <Icon size={18} color={color} style={{ opacity: 0.7 }} />
+          <motion.div key={label} className="stat-card" style={{ background: '#FFFFFF', border: '1px solid #E8E4DD', padding: '24px', borderRadius: '12px' }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+              <div style={{ fontSize: '30px', fontWeight: 700, color: '#1C1B1A', lineHeight: 1, fontFamily: 'Public Sans, sans-serif' }}>{value}</div>
+              <div style={{ backgroundColor: '#FAF8F4', padding: '8px', borderRadius: '8px' }}>
+                <Icon size={20} color={color} />
+              </div>
             </div>
-            <div className="stat-label">{label}</div>
-            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{sub}</div>
+            <div style={{ fontSize: '13px', fontWeight: 400, color: '#1C1B1A', fontFamily: 'Public Sans, sans-serif', marginBottom: '4px' }}>{label}</div>
+            <div style={{ fontSize: '12px', color: '#6B6560', fontFamily: 'Public Sans, sans-serif' }}>{sub}</div>
           </motion.div>
         ))}
       </div>

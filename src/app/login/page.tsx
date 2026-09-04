@@ -189,7 +189,7 @@ function LoginForm() {
               marginBottom: 6,
               textShadow: '0 2px 12px rgba(0,0,0,0.2)',
             }}>
-              M·InT
+              MinT
             </div>
             <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.65)', letterSpacing: '0.12em', fontWeight: 700, textTransform: 'uppercase', marginBottom: 24 }}>
               Innovation Platform
@@ -212,13 +212,13 @@ function LoginForm() {
               { icon: '', text: 'Investor Connections' },
             ].map((f, i) => (
               <div key={i} style={{
-                display: 'flex', alignItems: 'center', gap: 10,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                 background: 'rgba(255,255,255,0.08)',
                 border: '1px solid rgba(255,255,255,0.12)',
                 borderRadius: 10, padding: '9px 14px',
               }}>
                 <span style={{ fontSize: '1rem' }}>{f.icon}</span>
-                <span style={{ color: 'rgba(255,255,255,0.82)', fontSize: '0.82rem', fontWeight: 500 }}>{f.text}</span>
+                <span style={{ color: 'rgba(255,255,255,0.82)', fontSize: '0.82rem', fontWeight: 500, textAlign: 'center' }}>{f.text}</span>
               </div>
             ))}
           </motion.div>

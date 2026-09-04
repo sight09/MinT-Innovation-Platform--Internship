@@ -23,7 +23,7 @@ export default async function AdminAnalyticsPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12" style={{ gap: '24px', marginBottom: '32px' }}>
         {stats.map(s => (
           <div key={s.label} className="card" style={{ padding: 24 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>

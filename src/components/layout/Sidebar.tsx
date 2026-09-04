@@ -186,7 +186,7 @@ export function Sidebar({ user, notificationCount = 0 }: SidebarProps) {
             <button
               onClick={() => setCollapsed(false)}
               style={{
-                background: '#006B6B',
+                background: '#A67C3D',
                 border: 'none',
                 color: 'white',
                 borderRadius: '50%',
@@ -211,11 +211,12 @@ export function Sidebar({ user, notificationCount = 0 }: SidebarProps) {
         {!collapsed && (
           <div style={{
             padding: '6px 20px 4px',
-            fontSize: '0.65rem',
-            fontWeight: 700,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.35)',
+            fontSize: '0.8125rem',  /* 13px per spec */
+            fontWeight: 400,
+            fontFamily: "'Public Sans', system-ui, sans-serif",
+            letterSpacing: 0,
+            textTransform: 'none',  /* sentence case */
+            color: 'rgba(255,255,255,0.40)',
             marginBottom: 4,
           }}>
             Navigation
@@ -392,7 +393,7 @@ export function Sidebar({ user, notificationCount = 0 }: SidebarProps) {
         style={{
           position: 'fixed',
           top: 0, left: 0, bottom: 0,
-          background: '#0F5567',
+          background: '#0F3D3E',
           borderRight: '1px solid rgba(255,255,255,0.07)',
           overflow: 'hidden',
           zIndex: 50,
@@ -409,7 +410,7 @@ export function Sidebar({ user, notificationCount = 0 }: SidebarProps) {
         onClick={() => setMobileOpen(true)}
         style={{
           position: 'fixed', top: 12, left: 12, zIndex: 100,
-          background: '#0F5567',
+          background: '#0F3D3E',
           border: 'none',
           color: 'white',
           borderRadius: 8,
@@ -445,7 +446,7 @@ export function Sidebar({ user, notificationCount = 0 }: SidebarProps) {
               style={{
                 position: 'fixed', top: 0, left: 0, bottom: 0,
                 width: 260,
-                background: '#0F5567',
+                background: '#0F3D3E',
                 borderRight: '1px solid rgba(255,255,255,0.08)',
                 zIndex: 100,
               }}

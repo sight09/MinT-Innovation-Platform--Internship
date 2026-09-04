@@ -107,19 +107,20 @@ export function InvestorDashboard({ user, investorProfile, recentInterests }: In
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-7">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8" style={{ gap: '24px', marginBottom: '32px' }}>
         {[
-          { label: 'Interests Expressed', value: recentInterests.length, icon: TrendingUp, color: '#A78BFA' },
-          { label: 'In Discussion', value: recentInterests.filter((i: any) => i.status === 'IN_DISCUSSION').length, icon: CheckCircle, color: '#4ADE80' },
-          { label: 'Preferred Sectors', value: investorProfile.preferredSectors?.length || 0, icon: Briefcase, color: '#60A5FA' },
-          { label: 'Preferred Stages', value: investorProfile.preferredStages?.length || 0, icon: Star, color: '#FBBF24' },
-        ].map(({ label, value, icon: Icon, color }) => (
-          <motion.div key={label} className="stat-card" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <div className="stat-value" style={{ color }}>{value}</div>
-              <Icon size={18} color={color} style={{ opacity: 0.7 }} />
+          { label: 'Interests Expressed', value: recentInterests.length, icon: TrendingUp, color: '#0F3D3E', sub: 'Total startups bookmarked' },
+          { label: 'In Discussion', value: recentInterests.filter((i: any) => i.status === 'IN_DISCUSSION').length, icon: CheckCircle, color: '#0F3D3E', sub: 'Active conversations' },
+        ].map(({ label, value, icon: Icon, color, sub }) => (
+          <motion.div key={label} className="stat-card" style={{ background: '#FFFFFF', border: '1px solid #E8E4DD', padding: '24px', borderRadius: '12px' }} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+              <div style={{ fontSize: '30px', fontWeight: 700, color: '#1C1B1A', lineHeight: 1, fontFamily: 'Public Sans, sans-serif' }}>{value}</div>
+              <div style={{ backgroundColor: '#FAF8F4', padding: '8px', borderRadius: '8px' }}>
+                <Icon size={20} color={color} />
+              </div>
             </div>
-            <div className="stat-label">{label}</div>
+            <div style={{ fontSize: '13px', fontWeight: 400, color: '#1C1B1A', fontFamily: 'Public Sans, sans-serif', marginBottom: '4px' }}>{label}</div>
+            <div style={{ fontSize: '12px', color: '#6B6560', fontFamily: 'Public Sans, sans-serif' }}>{sub}</div>
           </motion.div>
         ))}
       </div>

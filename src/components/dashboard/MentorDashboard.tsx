@@ -98,19 +98,22 @@ export function MentorDashboard({ user, mentorProfile, recentReviews, pendingSta
       </div>
 
       {/* KPI Row */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-7">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" style={{ gap: '24px', marginBottom: '32px' }}>
         {[
-          { label: 'Reviews Submitted', value: recentReviews.length, icon: Star, color: '#FBBF24' },
-          { label: 'Startups Assigned', value: pendingStartups.length, icon: Building2, color: '#60A5FA' },
-          { label: 'Open Questions', value: pendingQuestions.length, icon: MessageSquare, color: '#F97316' },
-          { label: 'Flagged (Promising)', value: recentReviews.filter(r => r.isFlagged).length, icon: Flag, color: '#4ADE80' },
-        ].map(({ label, value, icon: Icon, color }) => (
-          <motion.div key={label} className="stat-card" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <div className="stat-value" style={{ color }}>{value}</div>
-              <Icon size={18} color={color} style={{ opacity: 0.7 }} />
+          { label: 'Reviews Submitted', value: recentReviews.length, icon: Star, color: '#0F3D3E', sub: 'Total feedback given' },
+          { label: 'Startups Assigned', value: pendingStartups.length, icon: Building2, color: '#0F3D3E', sub: 'Action required' },
+          { label: 'Open Questions', value: pendingQuestions.length, icon: MessageSquare, color: pendingQuestions.length > 0 ? '#F97316' : '#0F3D3E', sub: 'Awaiting startup answers' },
+          { label: 'Flagged (Promising)', value: recentReviews.filter((r: any) => r.isFlagged).length, icon: Flag, color: '#A67C3D', sub: 'High potential startups' },
+        ].map(({ label, value, icon: Icon, color, sub }) => (
+          <motion.div key={label} className="stat-card" style={{ background: '#FFFFFF', border: '1px solid #E8E4DD', padding: '24px', borderRadius: '12px' }} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+              <div style={{ fontSize: '30px', fontWeight: 700, color: '#1C1B1A', lineHeight: 1, fontFamily: 'Public Sans, sans-serif' }}>{value}</div>
+              <div style={{ backgroundColor: '#FAF8F4', padding: '8px', borderRadius: '8px' }}>
+                <Icon size={20} color={color} />
+              </div>
             </div>
-            <div className="stat-label">{label}</div>
+            <div style={{ fontSize: '13px', fontWeight: 400, color: '#1C1B1A', fontFamily: 'Public Sans, sans-serif', marginBottom: '4px' }}>{label}</div>
+            <div style={{ fontSize: '12px', color: '#6B6560', fontFamily: 'Public Sans, sans-serif' }}>{sub}</div>
           </motion.div>
         ))}
       </div>
