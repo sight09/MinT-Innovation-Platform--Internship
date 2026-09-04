@@ -2,7 +2,7 @@
    MInT Innovation Platform — Official Design System
    Color palette derived from MInT official branding (mint.gov.et)
    Primary: Deep Navy #0F5567 | Teal #006B6B | Gold #D4891A | White #FFFFFF
-   Note: Google Fonts loaded via <link> in layout.tsx
+   Font: Inter (single unified typeface) — loaded via <link> in layout.tsx
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @import "tailwindcss";
@@ -65,7 +65,7 @@ html {
 body {
   background: var(--surface-base);
   color: var(--text-primary);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   min-height: 100vh;
@@ -74,17 +74,25 @@ body {
 a { color: inherit; text-decoration: none; }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Outfit', 'Inter', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 700;
   line-height: 1.25;
   color: var(--text-primary);
 }
 
-h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; }
-h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); }
-h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
-h4 { font-size: 1.125rem; }
-h5 { font-size: 1rem; }
+/* Typography hierarchy (dashboard context) */
+h1 { font-size: clamp(1.75rem, 4vw, 2rem);   font-weight: 800; letter-spacing: -0.02em; } /* 28–32px */
+h2 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 700; letter-spacing: -0.01em; } /* 20–24px */
+h3 { font-size: clamp(1.05rem, 2vw, 1.25rem);font-weight: 700; }
+h4 { font-size: 1rem;   font-weight: 600; }
+h5 { font-size: 0.9rem; font-weight: 600; }
+
+/* Landing page hero overrides — larger scale for public-facing hero sections */
+.hero-bg h1,
+.hero-section h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+}
 
 p { color: var(--text-secondary); line-height: 1.7; }
 
@@ -203,7 +211,8 @@ p { color: var(--text-secondary); line-height: 1.7; }
   font-weight: 900;
   color: var(--text-primary);
   line-height: 1;
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.03em;
 }
 
 /* ─── BUTTONS ────────────────────────────────────────────────────────────── */
@@ -471,7 +480,9 @@ textarea.form-control {
   border: 1px solid var(--surface-border);
   border-radius: 12px;
   overflow: hidden;
+  overflow-x: auto;   /* prevent horizontal overflow on mobile */
   background: var(--surface-card);
+  -webkit-overflow-scrolling: touch;
 }
 
 table {
@@ -604,9 +615,9 @@ tbody td {
 /* ─── PAGE HEADER ────────────────────────────────────────────────────────── */
 .page-header {
   background: linear-gradient(135deg, var(--mint-navy) 0%, #0F3562 60%, var(--mint-teal) 100%);
-  padding: 28px 32px;
+  padding: clamp(16px, 3vw, 28px) clamp(16px, 4vw, 32px);
   border-radius: 16px;
-  margin-bottom: 28px;
+  margin-bottom: clamp(16px, 3vw, 28px);
   position: relative;
   overflow: hidden;
 }
@@ -733,14 +744,135 @@ tbody td {
 
 /* ─── RESPONSIVE ─────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .hide-mobile { display: none !important; }
-  .card { padding: 16px; }
-  h1 { font-size: 1.75rem; }
-  h2 { font-size: 1.4rem; }
+  .hide-mobile  { display: none !important; }
+  .show-mobile-only { display: revert !important; }
+  .card         { padding: 14px; }
+  .card-compact { padding: 12px; }
+
+  /* Notification list: tighten on small screens */
+  .notif-list-item { padding: 12px 14px !important; }
 }
 
 @media (min-width: 769px) {
   .show-mobile-only { display: none !important; }
+}
+
+/* Ensure no horizontal scrollbar on the whole page */
+body { overflow-x: hidden; }
+
+/* ─── NOTIFICATION POPOVER ───────────────────────────────────────────────── */
+.notif-popover {
+  position: fixed;
+  bottom: 0;
+  left: 260px; /* aligned with sidebar width */
+  top: 0;
+  width: 360px;
+  background: var(--surface-card);
+  border-right: 1px solid var(--surface-border);
+  box-shadow: 4px 0 32px rgba(13,43,78,0.14);
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+  overflow: hidden;
+  animation: slideInLeft 200ms cubic-bezier(0.4,0,0.2,1);
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-16px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+.notif-popover-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--surface-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  background: var(--surface-card);
+}
+
+.notif-popover-body {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.notif-popover-footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--surface-border);
+  flex-shrink: 0;
+  background: var(--surface-card);
+}
+
+.notif-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--surface-border-soft);
+  cursor: pointer;
+  transition: background 150ms;
+  text-align: left;
+  width: 100%;
+  background: transparent;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
+
+.notif-list-item:last-child {
+  border-bottom: none;
+}
+
+.notif-list-item:hover {
+  background: var(--surface-hover);
+}
+
+.notif-list-item.unread {
+  background: rgba(0,107,107,0.05);
+  border-left: 3px solid var(--mint-teal);
+}
+
+.notif-list-item.unread:hover {
+  background: rgba(0,107,107,0.09);
+}
+
+/* Mobile: popover becomes a bottom drawer */
+@media (max-width: 1023px) {
+  .notif-popover {
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    max-height: 80vh;
+    border-right: none;
+    border-top: 1px solid var(--surface-border);
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -8px 40px rgba(13,43,78,0.18);
+    animation: slideInUp 220ms cubic-bezier(0.4,0,0.2,1);
+  }
+
+  @keyframes slideInUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to   { transform: translateY(0);   opacity: 1; }
+  }
+}
+
+/* Overlay behind popover */
+.notif-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(13,43,78,0.35);
+  backdrop-filter: blur(2px);
+  z-index: 199;
+  animation: fadeIn 150ms ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* ─── ANIMATE SPIN ───────────────────────────────────────────────────────── */

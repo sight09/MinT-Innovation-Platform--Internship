@@ -95,11 +95,9 @@ export default async function StartupsPage({
         </div>
 
         {/* Filter / Search Bar */}
-        <form method="GET" action="/startups" style={{
+        <form method="GET" action="/startups" className="flex flex-col md:flex-row gap-3 items-center" style={{
           background: 'var(--surface-card)', border: '1px solid var(--surface-border)',
           borderRadius: 16, padding: 16, marginBottom: 32,
-          display: 'grid', gridTemplateColumns: '1fr auto auto auto', gap: 12,
-          alignItems: 'center',
         }}>
           <div style={{ position: 'relative' }}>
             <Search size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
@@ -135,7 +133,7 @@ export default async function StartupsPage({
             <p style={{ color: 'var(--text-muted)' }}>Try adjusting your search terms or filters.</p>
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 24 }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {startups.map((startup) => {
               const avgReview = startup.mentorReviews.length > 0
                 ? startup.mentorReviews.reduce((a, b) => a + Number(b.averageScore), 0) / startup.mentorReviews.length

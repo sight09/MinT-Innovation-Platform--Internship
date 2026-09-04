@@ -107,7 +107,7 @@ export function InvestorDashboard({ user, investorProfile, recentInterests }: In
       </div>
 
       {/* KPIs */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 28 }}>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-7">
         {[
           { label: 'Interests Expressed', value: recentInterests.length, icon: TrendingUp, color: '#A78BFA' },
           { label: 'In Discussion', value: recentInterests.filter((i: any) => i.status === 'IN_DISCUSSION').length, icon: CheckCircle, color: '#4ADE80' },
@@ -169,12 +169,7 @@ export function InvestorDashboard({ user, investorProfile, recentInterests }: In
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
             {recentInterests.map((interest: any) => (
               <Link key={interest.id} href={`/startups/${interest.startup?.id}`}>
-                <div style={{
-                  display: 'grid', gridTemplateColumns: 'auto 1fr auto auto',
-                  gap: 12, alignItems: 'center', padding: '12px 0',
-                  borderBottom: '1px solid var(--surface-border)', cursor: 'pointer',
-                  transition: 'background 150ms', borderRadius: 4,
-                }}
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 py-3 border-b border-[var(--surface-border)] cursor-pointer transition-colors hover:bg-black/5 rounded"
                   onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.02)')}
                   onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                 >

@@ -433,7 +433,7 @@ function LoginForm() {
                   Demo Accounts
                 </span>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 7 }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {demoAccounts.map(acc => (
                   <button
                     key={acc.label}

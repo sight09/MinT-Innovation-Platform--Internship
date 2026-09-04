@@ -100,7 +100,7 @@ export function StartupDashboard({ user, startup, notifications }: StartupDashbo
       </div>
 
       {/* KPI Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 28 }}>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-7">
         {[
           { label: 'Readiness Score', value: `${overallScore}/100`, icon: Target, color: getScoreColor(overallScore), sub: overallScore >= 75 ? 'Investment Ready' : overallScore >= 50 ? 'Developing' : 'Early Stage' },
           { label: 'Mentor Reviews', value: reviewCount, icon: Star, color: '#FBBF24', sub: reviewCount > 0 ? 'Published' : 'None yet' },
@@ -118,7 +118,7 @@ export function StartupDashboard({ user, startup, notifications }: StartupDashbo
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Readiness Breakdown */}
         {score && (
           <motion.div className="card" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
@@ -126,7 +126,7 @@ export function StartupDashboard({ user, startup, notifications }: StartupDashbo
               <h4>Readiness Score</h4>
               <AiBadge />
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 16 }}>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
               {[
                 { label: 'Problem', value: score.problemClarity, color: '#60A5FA' },
                 { label: 'Innovation', value: score.innovationScore, color: '#A78BFA' },

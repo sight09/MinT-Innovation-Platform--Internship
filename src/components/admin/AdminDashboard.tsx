@@ -90,7 +90,7 @@ export function AdminDashboard({ stats, pendingStartups, pendingMentors = [], re
       </div>
 
       {/* KPI Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 28 }}>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-7">
         {[
           { label: 'Total Startups', value: stats.totalStartups, icon: Building2, color: '#60A5FA', sub: `${stats.approvedStartups} approved` },
           { label: 'Pending Review', value: stats.pendingStartups, icon: AlertCircle, color: '#F5A623', sub: 'Action required' },
@@ -110,7 +110,7 @@ export function AdminDashboard({ stats, pendingStartups, pendingMentors = [], re
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 20 }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Pending Approvals */}
         <motion.div className="card" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>

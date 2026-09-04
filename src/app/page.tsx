@@ -274,12 +274,12 @@ export default function LandingPage() {
           >
             <span className="badge badge-blue" style={{ marginBottom: 12 }}>How It Works</span>
             <h2>The Innovation Pipeline</h2>
-            <p style={{ maxWidth: 520, margin: '12px auto 0' }}>
+            <p className="max-w-[520px] mx-auto mt-3">
               A transparent, structured journey from problem to investment
             </p>
           </motion.div>
 
-          <div style={{ overflow: 'hidden', width: '100%', position: 'relative', padding: '20px 0' }}>
+          <div className="overflow-hidden w-full relative py-5">
             {/* Gradient masks for smooth edges */}
             <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 60, background: 'linear-gradient(to right, var(--surface-elevated), transparent)', zIndex: 10 }} />
             <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 60, background: 'linear-gradient(to left, var(--surface-elevated), transparent)', zIndex: 10 }} />
@@ -322,7 +322,7 @@ export default function LandingPage() {
       {/* ── FOR STARTUPS ────────────────────────────────────────────────────── */}
       <section className="section">
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 40, alignItems: 'center' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <span className="badge badge-green" style={{ marginBottom: 12 }}>For Ethiopian Startups</span>
               <h2 style={{ marginBottom: 16 }}>Present Your Problem.<br />Get Structured Help.</h2>
@@ -414,13 +414,13 @@ export default function LandingPage() {
           >
             <span className="badge badge-gold" style={{ marginBottom: 12 }}>For Investors</span>
             <h2>Discover AI-Matched Startups</h2>
-            <p style={{ maxWidth: 520, margin: '12px auto 0' }}>
+            <p className="max-w-[520px] mx-auto mt-3">
               Every recommendation comes with a match score, mentor evaluation, and transparent reasoning
             </p>
           </motion.div>
 
           {/* Sample recommendation card */}
-          <div style={{ maxWidth: 480, margin: '0 auto' }}>
+          <div className="max-w-[480px] mx-auto">
             <motion.div
               className="card"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -448,7 +448,7 @@ export default function LandingPage() {
                 SME working capital financing powered by alternative credit scoring
               </p>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 16 }}>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
                 {[
                   { label: 'Seeking', value: 'ETB 10M' },
                   { label: 'Readiness', value: '89/100' },
@@ -502,7 +502,7 @@ export default function LandingPage() {
             </Link>
           </motion.div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {FEATURED_STARTUPS.map((startup, i) => (
               <motion.div
                 key={startup.name}
@@ -559,7 +559,7 @@ export default function LandingPage() {
       {/* ── AI ASSISTANT PREVIEW ─────────────────────────────────────────────── */}
       <section className="section" style={{ background: 'var(--surface-elevated)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 40, alignItems: 'center' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <span className="badge badge-purple" style={{ marginBottom: 12 }}>
                 <Sparkles size={12} />

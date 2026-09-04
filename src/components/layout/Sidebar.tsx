@@ -12,6 +12,7 @@ import {
   Building2, LogOut, X,
 } from 'lucide-react'
 import { MintLogo } from '@/components/ui/MintLogo'
+import { NotificationPopover } from '@/components/layout/NotificationPopover'
 import { getInitials } from '@/lib/utils'
 
 interface NavItem {
@@ -65,7 +66,6 @@ function getNavItems(role: string, isVerified: boolean = false): NavItem[] {
       { href: '/dashboard/startup/feedback', icon: Star, label: 'Mentor Feedback' },
       { href: '/dashboard/startup/investors', icon: TrendingUp, label: 'Investor Interest' },
       { href: '/messages', icon: MessageSquare, label: 'Messages' },
-      { href: '/ai', icon: Sparkles, label: 'AI Assistant' },
       { href: '/resources', icon: BookOpen, label: 'Resources' },
     ]
   }
@@ -77,7 +77,6 @@ function getNavItems(role: string, isVerified: boolean = false): NavItem[] {
       { href: '/dashboard/mentor/assignments', icon: Users, label: 'My Assignments' },
       { href: '/dashboard/mentor/reviews', icon: Star, label: 'My Reviews' },
       { href: '/messages', icon: MessageSquare, label: 'Messages' },
-      { href: '/ai', icon: Sparkles, label: 'AI Assistant' },
       { href: '/resources', icon: BookOpen, label: 'Resources' },
     ]
   }
@@ -90,7 +89,6 @@ function getNavItems(role: string, isVerified: boolean = false): NavItem[] {
       { href: '/dashboard/investor/saved', icon: Briefcase, label: 'Saved Startups' },
       { href: '/dashboard/investor/interests', icon: TrendingUp, label: 'My Interests' },
       { href: '/messages', icon: MessageSquare, label: 'Messages' },
-      { href: '/ai', icon: Sparkles, label: 'AI Assistant' },
     ]
   }
 
@@ -115,6 +113,8 @@ export function Sidebar({ user, notificationCount = 0 }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [showSignOutModal, setShowSignOutModal] = useState(false)
+  const [notifOpen, setNotifOpen] = useState(false)
+  const [localNotifCount, setLocalNotifCount] = useState(notificationCount)
   const pathname = usePathname()
   const navItems = getNavItems(user.role, user.isVerified)
   const initials = getInitials(
@@ -271,49 +271,59 @@ export function Sidebar({ user, notificationCount = 0 }: SidebarProps) {
       {/* Bottom: Notifications + User */}
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', padding: '10px 0' }}>
 
-        {/* Notifications */}
-        <Link href="/notifications" style={{ textDecoration: 'none' }}>
-          <div
-            className="sidebar-item"
+        {/* Notifications — opens popover, no redirect */}
+          <button
+            onClick={() => setNotifOpen(true)}
             style={{
-              justifyContent: collapsed ? 'center' : 'flex-start',
-              gap: collapsed ? 0 : 10,
-              padding: collapsed ? '10px 0' : '9px 20px',
+              all: 'unset',
+              display: 'flex',
+              width: '100%',
+              cursor: 'pointer',
             }}
-            data-tooltip={collapsed ? 'Notifications' : undefined}
+            aria-label="Open notifications"
           >
-            <div style={{ position: 'relative', flexShrink: 0 }}>
-              <Bell size={18} style={{ color: 'rgba(255,255,255,0.6)' }} />
-              {notificationCount > 0 && (
-                <span style={{
-                  position: 'absolute', top: -3, right: -3,
-                  width: 9, height: 9,
-                  background: '#F5A623',
-                  borderRadius: '50%',
-                  border: '2px solid #0F5567',
-                }} />
+            <div
+              className="sidebar-item"
+              style={{
+                width: '100%',
+                justifyContent: collapsed ? 'center' : 'flex-start',
+                gap: collapsed ? 0 : 10,
+                padding: collapsed ? '10px 0' : '9px 20px',
+              }}
+              data-tooltip={collapsed ? 'Notifications' : undefined}
+            >
+              <div style={{ position: 'relative', flexShrink: 0 }}>
+                <Bell size={18} style={{ color: 'rgba(255,255,255,0.6)' }} />
+                {localNotifCount > 0 && (
+                  <span style={{
+                    position: 'absolute', top: -3, right: -3,
+                    width: 9, height: 9,
+                    background: '#F5A623',
+                    borderRadius: '50%',
+                    border: '2px solid #0F5567',
+                  }} />
+                )}
+              </div>
+              {!collapsed && (
+                <>
+                  <span style={{ fontSize: '0.875rem', whiteSpace: 'nowrap' }}>Notifications</span>
+                  {localNotifCount > 0 && (
+                    <span style={{
+                      marginLeft: 'auto',
+                      background: '#F5A623',
+                      color: '#1a1a1a',
+                      fontSize: '0.65rem',
+                      fontWeight: 700,
+                      padding: '1px 6px',
+                      borderRadius: 99,
+                    }}>
+                      {localNotifCount}
+                    </span>
+                  )}
+                </>
               )}
             </div>
-            {!collapsed && (
-              <>
-                <span style={{ fontSize: '0.875rem', whiteSpace: 'nowrap' }}>Notifications</span>
-                {notificationCount > 0 && (
-                  <span style={{
-                    marginLeft: 'auto',
-                    background: '#F5A623',
-                    color: '#1a1a1a',
-                    fontSize: '0.65rem',
-                    fontWeight: 700,
-                    padding: '1px 6px',
-                    borderRadius: 99,
-                  }}>
-                    {notificationCount}
-                  </span>
-                )}
-              </>
-            )}
-          </div>
-        </Link>
+          </button>
 
         {/* User Card */}
         <div style={{
@@ -554,6 +564,14 @@ export function Sidebar({ user, notificationCount = 0 }: SidebarProps) {
           #mobile-menu-btn { display: flex !important; }
         }
       `}</style>
+
+      {/* Notification Popover — inline, no redirect */}
+      {notifOpen && (
+        <NotificationPopover
+          onClose={() => setNotifOpen(false)}
+          onCountChange={(count) => setLocalNotifCount(count)}
+        />
+      )}
     </>
   )
 }

@@ -20,7 +20,7 @@ export default async function AdminSettingsPage() {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 24 }}>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         {/* Settings Navigation */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -36,7 +36,7 @@ export default async function AdminSettingsPage() {
         </div>
 
         {/* Content Area */}
-        <div className="card" style={{ padding: 32 }}>
+        <div className="card md:col-span-2" style={{ padding: 32 }}>
           <h3 style={{ marginTop: 0, marginBottom: 24, borderBottom: '1px solid var(--surface-border)', paddingBottom: 16 }}>
             General Security
           </h3>

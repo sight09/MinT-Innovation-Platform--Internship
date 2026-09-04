@@ -66,12 +66,10 @@ export default async function PlatformLayout({
         style={{
           flex: 1,
           minWidth: 0,
-          padding: 'clamp(20px, 3vw, 36px)',
+          padding: 'clamp(16px, 3vw, 36px)',
           minHeight: '100vh',
           background: 'var(--surface-base)',
-          /* marginLeft is controlled via Sidebar's useEffect + CSS variable */
-          marginLeft: 260,
-          transition: 'margin-left 300ms ease',
+          /* marginLeft is managed by .main-content CSS class + Sidebar useEffect */
         }}
       >
         {children}

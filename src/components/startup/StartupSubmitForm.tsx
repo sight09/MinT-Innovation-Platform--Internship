@@ -104,7 +104,7 @@ export function StartupSubmitForm({ initialData }: { initialData?: any }) {
       </div>
 
       {/* Progress Tabs */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 32 }}>
+      <div className="flex flex-col sm:flex-row gap-2 mb-8">
         {[
           { num: 1, title: 'Basic Info' },
           { num: 2, title: 'The Problem' },
@@ -166,7 +166,7 @@ export function StartupSubmitForm({ initialData }: { initialData?: any }) {
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="form-group">
                   <label className="form-label">Primary Sector *</label>
                   <select
@@ -192,7 +192,7 @@ export function StartupSubmitForm({ initialData }: { initialData?: any }) {
 
               <div className="form-group">
                 <label className="form-label">Current Stage *</label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {STAGES.map(st => (
                     <button
                       key={st.value}
@@ -292,7 +292,7 @@ export function StartupSubmitForm({ initialData }: { initialData?: any }) {
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="form-group">
                   <label className="form-label">Business Model</label>
                   <input
@@ -332,7 +332,7 @@ export function StartupSubmitForm({ initialData }: { initialData?: any }) {
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div className="form-group">
                   <label className="form-label">Active Users / Customers</label>
                   <input

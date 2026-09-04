@@ -229,7 +229,7 @@ function RegisterForm() {
             </div>
 
             <form onSubmit={handleRegister} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="form-group">
                   <label className="form-label" htmlFor="reg-first">First name</label>
                   <input id="reg-first" className="input" placeholder="Dawit" value={formData.firstName} onChange={e => setFormData(p => ({ ...p, firstName: e.target.value }))} required />
