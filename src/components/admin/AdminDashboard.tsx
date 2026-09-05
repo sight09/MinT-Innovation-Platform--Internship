@@ -122,7 +122,7 @@ export function AdminDashboard({ stats, pendingStartups, pendingMentors = [], re
           </div>
 
           {startupsList.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: 32, color: 'var(--text-muted)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 32, color: 'var(--text-muted)' }}>
               <CheckCircle size={32} color="#4ADE80" style={{ marginBottom: 8 }} />
               <p>No startups pending review.</p>
             </div>
@@ -188,7 +188,7 @@ export function AdminDashboard({ stats, pendingStartups, pendingMentors = [], re
           </div>
 
           {mentorsList.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: 32, color: 'var(--text-muted)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 32, color: 'var(--text-muted)' }}>
               <CheckCircle size={32} color="#4ADE80" style={{ marginBottom: 8 }} />
               <p>No mentors pending review.</p>
             </div>
