@@ -94,8 +94,19 @@ export function InvestorDashboard({ user, investorProfile, recentInterests }: In
             </h1>
             {investorProfile.isVerified && <VerifiedInvestorBadge />}
           </div>
-          <p style={{ color: 'var(--text-muted)', margin: 0 }}>
-            Investor · {Array.isArray(investorProfile.preferredSectors) ? investorProfile.preferredSectors.join(', ') : (investorProfile.preferredSectors || 'All sectors')}
+          <p style={{ color: 'var(--text-muted)', margin: 0, fontSize: '0.9rem' }}>
+            Investor · {
+              (() => {
+                try {
+                  const parsed = typeof investorProfile.preferredSectors === 'string' && investorProfile.preferredSectors.startsWith('[') 
+                    ? JSON.parse(investorProfile.preferredSectors) 
+                    : investorProfile.preferredSectors;
+                  return Array.isArray(parsed) ? parsed.join(', ') : (parsed || 'All sectors');
+                } catch {
+                  return investorProfile.preferredSectors || 'All sectors';
+                }
+              })()
+            }
           </p>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
