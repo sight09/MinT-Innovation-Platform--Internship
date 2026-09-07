@@ -1,10 +1,13 @@
-# MInT Ecosystem Platform
 
-The **Ministry of Innovation & Technology (MInT) Ecosystem Platform** is a comprehensive portal designed to oversee, manage, and foster the startup innovation ecosystem. It connects startups, mentors, and investors, providing a centralized government console for oversight, approval, and activity tracking.
+<h1 align="center"> MInT Innovation Platform </h1>
 
-## 🎥 Demo
-<!-- Add your video here. If you have an mp4 or gif, you can place it in the public folder and link it here, or upload it to YouTube/Loom and put the link. -->
-*[Insert Demo Video / GIF Here]*
+<p align="center">
+  <img src="public/landing_image.png" width="100%" alt="AI Virtual Mouse Banner">
+</p>
+
+<p align="center">
+  The <strong>Ministry of Innovation & Technology (MInT) Innovation Platform</strong> is a comprehensive portal designed to oversee, manage, and foster the startup innovation ecosystem. It connects startups, mentors, and investors, providing a centralized government console for oversight, approval, and activity tracking.
+</p>
 
 
 ## 🚀 Tech Stack
