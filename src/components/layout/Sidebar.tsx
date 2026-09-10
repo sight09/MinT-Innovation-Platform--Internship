@@ -62,33 +62,33 @@ function getNavItems(role: string, isVerified: boolean = false): NavItem[] {
       ...base,
       { href: '/dashboard/startup/profile', icon: Building2, label: 'My Startup' },
       { href: '/dashboard/startup/submit', icon: FileText, label: 'Submit Problem' },
-      { href: '/startups', icon: Rocket, label: 'Discover Startups' },
+      { href: '/dashboard/startups', icon: Rocket, label: 'Discover Startups' },
       { href: '/dashboard/startup/feedback', icon: Star, label: 'Mentor Feedback' },
       { href: '/dashboard/startup/investors', icon: TrendingUp, label: 'Investor Interest' },
-      { href: '/messages', icon: MessageSquare, label: 'Messages' },
-      { href: '/resources', icon: BookOpen, label: 'Resources' },
+      { href: '/dashboard/messages', icon: MessageSquare, label: 'Messages' },
+      { href: '/dashboard/resources', icon: BookOpen, label: 'Resources' },
     ]
   }
 
   if (role === 'MINT_MENTOR') {
     return [
       ...base,
-      { href: '/startups', icon: Rocket, label: 'Startups' },
+      { href: '/dashboard/startups', icon: Rocket, label: 'Startups' },
       { href: '/dashboard/mentor/assignments', icon: Users, label: 'My Assignments' },
       { href: '/dashboard/mentor/reviews', icon: Star, label: 'My Reviews' },
-      { href: '/messages', icon: MessageSquare, label: 'Messages' },
-      { href: '/resources', icon: BookOpen, label: 'Resources' },
+      { href: '/dashboard/messages', icon: MessageSquare, label: 'Messages' },
+      { href: '/dashboard/resources', icon: BookOpen, label: 'Resources' },
     ]
   }
 
   if (role === 'INVESTOR') {
     return [
       ...base,
-      { href: '/startups', icon: Rocket, label: 'Discover Startups' },
+      { href: '/dashboard/startups', icon: Rocket, label: 'Discover Startups' },
       { href: '/dashboard/investor/recommendations', icon: Star, label: 'Recommendations' },
       { href: '/dashboard/investor/saved', icon: Briefcase, label: 'Saved Startups' },
       { href: '/dashboard/investor/interests', icon: TrendingUp, label: 'My Interests' },
-      { href: '/messages', icon: MessageSquare, label: 'Messages' },
+      { href: '/dashboard/messages', icon: MessageSquare, label: 'Messages' },
     ]
   }
 

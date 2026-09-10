@@ -76,6 +76,17 @@ model User {
   sentMessages      Message[]      @relation("SentMessages")
   receivedMessages  Message[]      @relation("ReceivedMessages")
   accounts          Account[]
+  passwordResetTokens PasswordResetToken[]
+}
+
+model PasswordResetToken {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
 }
 
 model Account {

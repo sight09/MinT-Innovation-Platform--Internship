@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { signIn } from 'next-auth/react'
-import { Eye, EyeOff, Loader2, ArrowLeft, CheckCircle, Rocket, Shield, TrendingUp } from 'lucide-react'
+import { Eye, EyeOff, Loader2, ArrowLeft, CheckCircle, Rocket, Shield, TrendingUp, RefreshCw } from 'lucide-react'
 import { MintLogo } from '@/components/ui/MintLogo'
 import toast from 'react-hot-toast'
 
@@ -47,6 +47,46 @@ function RegisterForm() {
   const [userId, setUserId] = useState<string | null>(null)
   const [otp, setOtp] = useState('')
   const [otpLoading, setOtpLoading] = useState(false)
+  const [resendCooldown, setResendCooldown] = useState(0)
+  const [resendLoading, setResendLoading] = useState(false)
+
+  function startResendCooldown() {
+    setResendCooldown(60)
+    const timer = setInterval(() => {
+      setResendCooldown(prev => {
+        if (prev <= 1) { clearInterval(timer); return 0 }
+        return prev - 1
+      })
+    }, 1000)
+  }
+
+  async function handleResendOtp() {
+    if (!userId || resendCooldown > 0 || resendLoading) return
+    setResendLoading(true)
+    try {
+      const res = await fetch('/api/auth/resend-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        toast.error(data.error || 'Failed to resend code')
+        return
+      }
+      if (data.devOtp) {
+        setOtp(data.devOtp)
+        toast.success(`Dev mode: new OTP pre-filled (${data.devOtp})`)
+      } else {
+        toast.success('New verification code sent! Check your email.')
+      }
+      startResendCooldown()
+    } catch {
+      toast.error('Failed to resend. Please try again.')
+    } finally {
+      setResendLoading(false)
+    }
+  }
 
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault()
@@ -74,6 +114,7 @@ function RegisterForm() {
       }
 
       setUserId(data.userId)
+      startResendCooldown()
 
       if (data.devOtp) {
         setOtp(data.devOtp)
@@ -322,6 +363,32 @@ function RegisterForm() {
                 {otpLoading ? <><Loader2 size={18} className="animate-spin" /> Verifying...</> : 'Verify Email'}
               </button>
             </form>
+
+            {/* Resend code */}
+            <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid var(--surface-border)', textAlign: 'center' }}>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: 10 }}>
+                Didn&apos;t receive the code?
+              </p>
+              <button
+                id="resend-otp-btn"
+                onClick={handleResendOtp}
+                disabled={resendCooldown > 0 || resendLoading}
+                style={{
+                  background: 'none',
+                  border: `1.5px solid ${resendCooldown > 0 ? 'var(--surface-border)' : '#1B4F9B'}`,
+                  borderRadius: 8, padding: '8px 18px', cursor: resendCooldown > 0 ? 'not-allowed' : 'pointer',
+                  color: resendCooldown > 0 ? 'var(--text-muted)' : '#60A5FA', fontWeight: 600, fontSize: '0.82rem',
+                  display: 'inline-flex', alignItems: 'center', gap: 6, transition: 'all 200ms',
+                }}
+              >
+                {resendLoading
+                  ? <><Loader2 size={14} className="animate-spin" /> Sending...</>
+                  : resendCooldown > 0
+                    ? `Resend in ${resendCooldown}s`
+                    : <><RefreshCw size={14} /> Resend code</>
+                }
+              </button>
+            </div>
           </div>
         )}
       </motion.div>

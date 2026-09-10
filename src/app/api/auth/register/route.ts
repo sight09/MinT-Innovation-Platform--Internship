@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
+import { sendVerificationEmail } from '@/lib/email'
 
 const registerSchema = z.object({
   firstName: z.string().min(2).max(50),
@@ -108,8 +109,14 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    // In production, send email with OTP
-    // For demo: return OTP in response (never do this in production!)
+    // Send verification email (falls back to console log in dev without API key)
+    try {
+      await sendVerificationEmail(user.email, user.firstName, otpCode)
+    } catch (emailErr) {
+      console.error('[register] Failed to send verification email:', emailErr)
+      // Non-fatal — user can resend OTP from the verify page
+    }
+
     const isDev = process.env.NODE_ENV === 'development'
 
     return NextResponse.json({

@@ -349,6 +349,17 @@ function LoginForm() {
                 </div>
               </div>
 
+            {/* Forgot password */}
+            <div style={{ textAlign: 'right', marginTop: -8 }}>
+              <Link href="/forgot-password" style={{
+                fontSize: '0.78rem', color: '#0F5567', fontWeight: 600,
+                textDecoration: 'none', opacity: 0.85,
+                transition: 'opacity 150ms',
+              }}>
+                Forgot password?
+              </Link>
+            </div>
+
               {/* Sign In button */}
               <button
                 type="submit"
