@@ -155,6 +155,7 @@ model StartupProfile {
   mentorReviews        MentorReview[]
   mentorQuestions      MentorQuestion[]
   investmentInterests  InvestmentInterest[]
+  savedBy              SavedStartup[]
   startupScores        StartupScore[]
   engagementEvents     EngagementEvent[]
 }
@@ -265,6 +266,7 @@ model InvestorProfile {
   createdAt            DateTime             @default(now())
   updatedAt            DateTime             @updatedAt
   investmentInterests  InvestmentInterest[]
+  savedStartups        SavedStartup[]
 }
 
 model InvestmentInterest {
@@ -279,6 +281,18 @@ model InvestmentInterest {
   updatedAt   DateTime        @updatedAt
 
   @@unique([investorId, startupId])
+}
+
+model SavedStartup {
+  id          String          @id @default(uuid())
+  investorId  String
+  investor    InvestorProfile @relation(fields: [investorId], references: [id], onDelete: Cascade)
+  startupId   String
+  startup     StartupProfile  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  createdAt   DateTime        @default(now())
+
+  @@unique([investorId, startupId])
+  @@index([startupId])
 }
 
 model StartupScore {

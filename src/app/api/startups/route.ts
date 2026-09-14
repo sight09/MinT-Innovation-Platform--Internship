@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
+import { persistReadinessScore } from '@/lib/ai'
 
 const querySchema = z.object({
   sector: z.string().optional(),
@@ -139,6 +140,8 @@ export async function POST(req: NextRequest) {
         status: 'PENDING_REVIEW',
       },
     })
+
+    await persistReadinessScore(startup.id)
 
     await prisma.auditLog.create({
       data: {

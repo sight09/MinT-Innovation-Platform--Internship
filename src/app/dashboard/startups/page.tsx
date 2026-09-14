@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import { getStageLabel, getSectorColor, formatCurrency } from '@/lib/utils'
 import { MintLogo } from '@/components/ui/MintLogo'
+import { SaveStartupButton } from '@/components/startup/SaveStartupButton'
 
 export const metadata = {
   title: 'Ethiopian Startup Directory — MInT Platform',
@@ -48,6 +49,13 @@ export default async function StartupsPage({
     },
     orderBy: [{ featuredAt: 'desc' }, { readinessScore: 'desc' }],
   })
+
+  const savedStartupIds = session?.user?.role === 'INVESTOR'
+    ? new Set((await prisma.savedStartup.findMany({
+        where: { investor: { userId: session.user.id } },
+        select: { startupId: true },
+      })).map(saved => saved.startupId))
+    : new Set<string>()
 
   const sectors = [
     'Agriculture', 'FinTech', 'HealthTech', 'EdTech',
@@ -215,6 +223,9 @@ export default async function StartupsPage({
                     </div>
 
                     <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                      {session?.user?.role === 'INVESTOR' && (
+                        <SaveStartupButton startupId={startup.id} initialSaved={savedStartupIds.has(startup.id)} compact />
+                      )}
                       {avgReview && (
                         <div style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: '0.8rem', fontWeight: 700, color: '#FBBF24' }}>
                           <Star size={12} fill="#FBBF24" /> {avgReview.toFixed(1)}

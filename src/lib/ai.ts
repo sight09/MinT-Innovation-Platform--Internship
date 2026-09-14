@@ -1,4 +1,4 @@
-// MInT Platform — AI Services (Mock/Demo mode with full architecture)
+// MInT Platform — Local assistant and deterministic analysis services
 
 import { prisma } from '@/lib/prisma'
 
@@ -32,7 +32,7 @@ const MOCK_KNOWLEDGE: Array<{ content: string; title: string; sourceType: string
   },
 ]
 
-// ─── SEMANTIC SEARCH (Keyword-based for demo) ─────────────────────────────────
+// ─── KEYWORD RETRIEVAL ────────────────────────────────────────────────────────
 
 function retrieveRelevantChunks(query: string, topK = 3) {
   const queryLower = query.toLowerCase()
@@ -497,6 +497,32 @@ export async function computeReadinessScore(startupId: string) {
     mentorEngagement: Math.min(100, mentorEngagement),
     overallScore: Math.min(100, overallScore),
   }
+}
+
+export async function persistReadinessScore(startupId: string) {
+  const score = await computeReadinessScore(startupId)
+  if (!score) return null
+
+  await prisma.$transaction([
+    prisma.startupProfile.update({
+      where: { id: startupId },
+      data: { readinessScore: score.overallScore },
+    }),
+    prisma.startupScore.create({
+      data: {
+        startupId,
+        problemClarity: score.problemClarity,
+        innovationScore: score.innovationScore,
+        marketValidation: score.marketValidation,
+        businessModelScore: score.businessModelScore,
+        teamScore: score.teamScore,
+        mentorEngagement: score.mentorEngagement,
+        overallScore: score.overallScore,
+      },
+    }),
+  ])
+
+  return score
 }
 
 // ─── INVESTOR MATCHING ────────────────────────────────────────────────────────

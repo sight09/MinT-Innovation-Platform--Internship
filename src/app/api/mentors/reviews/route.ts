@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
+import { persistReadinessScore } from '@/lib/ai'
 
 const reviewSchema = z.object({
   startupId: z.string(),
@@ -80,6 +81,8 @@ export async function POST(req: NextRequest) {
         submittedAt: new Date(),
       },
     })
+
+    await persistReadinessScore(data.startupId)
 
     // Find startup owner and notify
     const startup = await prisma.startupProfile.findUnique({

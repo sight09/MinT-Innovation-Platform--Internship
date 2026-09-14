@@ -17,16 +17,32 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { message, conversationId, mode, startupId } = chatSchema.parse(body)
 
+    if (mode === 'analyze' && !session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     // Get or create conversation
     let convId = conversationId
     if (!convId) {
       const conv = await prisma.aiConversation.create({
         data: {
-          userId: session?.user?.id,
+          ...(session?.user?.id ? { userId: session.user.id } : {}),
           title: message.substring(0, 50),
         },
       })
       convId = conv.id
+    } else {
+      const conversation = await prisma.aiConversation.findFirst({
+        where: {
+          id: convId,
+          userId: session?.user?.id ?? null,
+        },
+        select: { id: true },
+      })
+
+      if (!conversation) {
+        return NextResponse.json({ error: 'Conversation not found' }, { status: 404 })
+      }
     }
 
     // Save user message
@@ -44,9 +60,9 @@ export async function POST(req: NextRequest) {
     if (mode === 'analyze' && startupId) {
       // Startup analysis mode
       const analysis = await analyzeStartup(startupId)
-      responseContent = `## AI Startup Analysis
+      responseContent = `## Startup Readiness Analysis
 
-> ⚠️ *This analysis is AI-assisted and advisory only. Official evaluation is performed by verified MInT mentors.*
+    > ⚠️ *This deterministic analysis is advisory only. Official evaluation is performed by verified MInT mentors.*
 
 ### ✅ Strengths
 ${analysis.strengths.map(s => `- ${s}`).join('\n')}

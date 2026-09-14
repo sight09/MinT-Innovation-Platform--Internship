@@ -580,19 +580,19 @@ export default function LandingPage() {
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <span className="badge badge-purple" style={{ marginBottom: 12 }}>
                 <Sparkles size={12} />
-                MInT AI Innovation Assistant
+                MInT Knowledge Assistant
               </span>
-              <h2 style={{ marginBottom: 16 }}>AI-Powered.<br />Knowledge-Grounded.</h2>
+              <h2 style={{ marginBottom: 16 }}>Keyword-Based.<br />MInT Guidance.</h2>
               <p style={{ marginBottom: 20 }}>
                 Ask anything about MInT programs, the Ethiopian startup proclamation, how to prepare for investors,
-                or get your startup analyzed. Every answer is grounded in official MInT documents and policies.
+                or get your startup analyzed. The assistant uses curated local reference content and predefined response templates.
               </p>
               {[
-                'Answers grounded in official MInT documents',
-                'Ethiopian Startup Proclamation No. 1396/2025 knowledge',
-                'Startup analysis and readiness assessment',
+                'Local MInT and startup guidance',
+                'Ethiopian Startup Proclamation reference content',
+                'Deterministic startup readiness analysis',
                 'Investment preparation guidance',
-                'Source citations for every regulatory answer',
+                'Relevant source references when available',
               ].map(item => (
                 <div key={item} style={{ display: 'flex', gap: 10, marginBottom: 10, alignItems: 'flex-start' }}>
                   <Sparkles size={14} color="#A78BFA" style={{ flexShrink: 0, marginTop: 2 }} />
@@ -626,7 +626,7 @@ export default function LandingPage() {
                 </div>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: '0.85rem' }}>MInT Innovation Assistant</div>
-                  <div style={{ fontSize: '0.65rem', color: '#4ADE80' }}>● RAG-powered · Always available</div>
+                  <div style={{ fontSize: '0.65rem', color: '#4ADE80' }}>● Keyword-based · Always available</div>
                 </div>
               </div>
               <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 12, minHeight: 200 }}>

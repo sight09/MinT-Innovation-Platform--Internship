@@ -12,6 +12,7 @@ import {
   formatDate, formatRelativeTime, getScoreColor,
 } from '@/lib/utils'
 import { MintLogo, VerifiedMentorBadge, AiBadge } from '@/components/ui/MintLogo'
+import { SaveStartupButton } from '@/components/startup/SaveStartupButton'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -77,11 +78,22 @@ export default async function StartupDetailPage({
 
   // Check if current investor has already expressed interest
   let existingInterest = null
+  let isSaved = false
   if (isInvestor && user?.id) {
     const investorProfile = await prisma.investorProfile.findUnique({
       where: { userId: user.id },
     })
     if (investorProfile) {
+      isSaved = Boolean(await prisma.savedStartup.findUnique({
+        where: {
+          investorId_startupId: {
+            investorId: investorProfile.id,
+            startupId: startup.id,
+          },
+        },
+        select: { id: true },
+      }))
+
       existingInterest = await prisma.investmentInterest.findUnique({
         where: {
           investorId_startupId: {
@@ -184,6 +196,7 @@ export default async function StartupDetailPage({
               {/* Express Interest Button for Investors */}
               {isInvestor && (
                 <div>
+                  <SaveStartupButton startupId={startup.id} initialSaved={isSaved} />
                   {existingInterest ? (
                     <div className="badge badge-green" style={{ padding: '8px 16px', fontSize: '0.875rem' }}>
                       ✓ Interest Expressed ({existingInterest.status})

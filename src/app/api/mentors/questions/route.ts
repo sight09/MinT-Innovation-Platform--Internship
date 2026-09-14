@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
+import { persistReadinessScore } from '@/lib/ai'
 
 const questionSchema = z.object({
   startupId: z.string(),
@@ -110,6 +111,8 @@ export async function PATCH(req: NextRequest) {
         isResolved: true,
       },
     })
+
+    await persistReadinessScore(question.startupId)
 
     return NextResponse.json({ question: updated })
   } catch (error) {

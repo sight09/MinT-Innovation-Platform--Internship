@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { persistReadinessScore } from '@/lib/ai'
 
 export async function GET(
   req: NextRequest,
@@ -131,7 +132,7 @@ export async function PATCH(
     }
 
     const {
-      status: _s, approvedAt: _a, approvedById: _ab, featuredAt: _f, userId: _u, id: _id,
+      status: _s, approvedAt: _a, approvedById: _ab, featuredAt: _f, userId: _u, id: _id, readinessScore: _r,
       ...allowedUpdates
     } = body
 
@@ -142,6 +143,8 @@ export async function PATCH(
         ...adminData,
       },
     })
+
+    await persistReadinessScore(id)
 
     await prisma.auditLog.create({
       data: {

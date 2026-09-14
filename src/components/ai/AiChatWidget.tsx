@@ -212,7 +212,7 @@ I can help you with:
                   </div>
                   <div style={{ fontSize: '0.7rem', color: '#4DD9E0', display: 'flex', alignItems: 'center', gap: 4 }}>
                     <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ADE80', display: 'inline-block' }} />
-                    AI-Powered · RAG-Enhanced
+                    Keyword-Based Assistant
                   </div>
                 </div>
               </div>
